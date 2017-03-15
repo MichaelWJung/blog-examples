@@ -1,7 +1,7 @@
-#include <cstdlib>
 #include <functional>
 #include <iostream>
 #include <list>
+#include <new>
 #include <set>
 #include <typeinfo>
 #include <vector>
@@ -38,7 +38,7 @@ public:
         std::cout << "Allocate " << n * sizeof(T)
                   << " bytes (type "
                   << typeid(T).name() << ")." << std::endl;
-        return static_cast<T*>(std::malloc(n * sizeof(T)));
+        return static_cast<T*>(operator new(n * sizeof(T)));
     }
 
     void deallocate(T* ptr, size_t n)
@@ -46,7 +46,7 @@ public:
         std::cout << "Deallocate " << n * sizeof(T)
                   << " bytes at " << ptr << " (type "
                   << typeid(T).name() << ")." << std::endl;
-        std::free(ptr);
+        operator delete(ptr);
     }
 
     template<class U>
@@ -78,6 +78,8 @@ class Foo
 {
 public:
     explicit Foo(int i = 0) : i(i) {}
+
+    // We need this to insert Foos into a set
     bool operator<(const Foo& other) const
     {
         return i < other.i;
@@ -96,14 +98,14 @@ int main()
             vec.push_back(Foo());
     }
 
-    std::cout << "\nMyList:" << std::endl;
+    std::cout << std::endl << "MyList:" << std::endl;
     {
         MyList<Foo> list;
         for (size_t i = 0; i < 5; ++i)
             list.push_back(Foo());
     }
 
-    std::cout << "\nMySet:" << std::endl;
+    std::cout << std::endl << "MySet:" << std::endl;
     {
         MySet<Foo> set;
         for (size_t i = 0; i < 5; ++i)
