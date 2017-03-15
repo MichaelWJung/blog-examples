@@ -50,13 +50,15 @@ public:
     }
 
     template<class U>
-    bool operator==(const MyAllocator<U>& other)
+    bool operator==(
+            const MyAllocator<U>& other) const noexcept
     {
         return state == other.state;
     }
 
     template<class U>
-    bool operator!=(const MyAllocator<U>& other)
+    bool operator!=(
+            const MyAllocator<U>& other) const noexcept
     {
         return !(*this == other);
     }
