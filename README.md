@@ -1,2 +1,2 @@
 # blog-examples
-Example files from my blog at https://www.cppmemorymastery.com
+Example files from my blog at https://michaeljung.pro
