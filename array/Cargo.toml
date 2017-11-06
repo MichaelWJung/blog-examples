@@ -1,0 +1,10 @@
+[package]
+name = "array"
+version = "0.1.0"
+authors = ["Michael Jung <MichaelWJung@users.noreply.github.com>"]
+
+[dependencies]
+
+[lib]
+name = "array"
+crate-type = ["dylib"]
